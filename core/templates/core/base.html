@@ -1,0 +1,209 @@
+{% load bootstrap5 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productivity App</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    {% bootstrap_css %}
+    
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-highlight: rgba(255, 255, 255, 0.05);
+            --neon-accent: #00f2ff;
+            --neon-secondary: #7000ff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+            min-height: 100vh;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* The Liquid Background Orbs */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -10%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, var(--neon-secondary) 0%, rgba(0,0,0,0) 70%);
+            opacity: 0.4;
+            filter: blur(80px);
+            z-index: -1;
+            animation: float 10s infinite ease-in-out alternate;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -10%;
+            right: -10%;
+            width: 40vw;
+            height: 40vw;
+            background: radial-gradient(circle, var(--neon-accent) 0%, rgba(0,0,0,0) 70%);
+            opacity: 0.3;
+            filter: blur(80px);
+            z-index: -1;
+            animation: float 15s infinite ease-in-out alternate-reverse;
+        }
+
+        /* The Main Glass Container */
+        .glass-panel {
+            background: rgba(20, 20, 20, 0.4);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 35px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            padding: 50px;
+            width: 100%;
+            max-width: 900px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Glossy Shine Effect on Container */
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%);
+            pointer-events: none;
+            border-radius: 35px 35px 0 0;
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 800;
+            letter-spacing: -1px;
+            background: linear-gradient(to right, #fff, #a5a5a5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Inputs */
+        .form-control {
+            background: rgba(0, 0, 0, 0.3) !important;
+            border: 1px solid var(--glass-border);
+            color: #fff !important;
+            border-radius: 15px;
+            padding: 15px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            background: rgba(0, 0, 0, 0.5) !important;
+            border-color: var(--neon-accent);
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--neon-secondary), #4a00e0);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(112, 0, 255, 0.4);
+            border-top: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(112, 0, 255, 0.6);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #00b09b, #96c93d);
+            border: none;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0, 176, 155, 0.4);
+        }
+
+        /* Task Cards */
+        .task-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .task-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .task-header {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px 20px;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .list-group-item {
+            background: transparent;
+            color: #ccc;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        a { text-decoration: none; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(30px, 30px); }
+        }
+
+        /* ... existing styles ... */
+
+        /* FIX: Make the Calendar Icon White and Larger */
+        input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+            filter: invert(1); /* Turns black icon to white */
+            cursor: pointer;
+            opacity: 0.8;
+            font-size: 1.2rem;
+            transition: 0.3s;
+        }
+        
+        input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        /* ... existing styles ... */
+    </style>
+
+    {% bootstrap_javascript %}
+</head>
+<body>
+    <div class="glass-panel">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

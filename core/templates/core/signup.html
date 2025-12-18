@@ -1,0 +1,68 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        
+        <div class="text-center mb-5">
+            <div class="mb-4" style="filter: drop-shadow(0 0 15px var(--neon-secondary));">
+                <i class="fas fa-user-astronaut fa-4x text-white"></i>
+            </div>
+            <h2 class="mb-1">Join the Vision</h2>
+            <p style="color: rgba(255,255,255,0.5);">Create your workspace today.</p>
+        </div>
+
+        {% if error %} 
+            <div class="alert alert-danger border-0 text-white mb-4" style="background: rgba(220, 53, 69, 0.3); backdrop-filter: blur(5px);">
+                <i class="fas fa-exclamation-circle me-2"></i> {{ error }}
+            </div> 
+        {% endif %}
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="mb-4">
+                <label class="small text-uppercase fw-bold mb-2" style="color: var(--neon-accent); letter-spacing: 1px;">Email Address</label>
+                <div class="input-group">
+                    <span class="input-group-text border-0 text-white" style="background: rgba(255,255,255,0.1);">
+                        <i class="fas fa-envelope"></i>
+                    </span>
+                    <input type="email" name="email" class="form-control ps-3" placeholder="name@example.com" required style="border-left: none;">
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="small text-uppercase fw-bold mb-2" style="color: var(--neon-accent); letter-spacing: 1px;">Password</label>
+                <div class="input-group">
+                    <span class="input-group-text border-0 text-white" style="background: rgba(255,255,255,0.1);">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                    <input type="password" name="password" class="form-control ps-3" placeholder="••••••••" required style="border-left: none;">
+                </div>
+            </div>
+
+            <div class="mb-5">
+                <label class="small text-uppercase fw-bold mb-2" style="color: var(--neon-accent); letter-spacing: 1px;">Confirm Password</label>
+                <div class="input-group">
+                    <span class="input-group-text border-0 text-white" style="background: rgba(255,255,255,0.1);">
+                        <i class="fas fa-shield-alt"></i>
+                    </span>
+                    <input type="password" name="confirm_password" class="form-control ps-3" placeholder="••••••••" required style="border-left: none;">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-3 mb-4 shadow-lg">
+                <i class="fas fa-rocket me-2"></i> Initialize Account
+            </button>
+        </form>
+
+        <div class="text-center pt-3 border-top" style="border-color: rgba(255,255,255,0.1) !important;">
+            <p class="mb-0 text-muted">Already have an ID?</p>
+            <a href="{% url 'login' %}" class="fw-bold text-white text-decoration-none">
+                Access Login <i class="fas fa-arrow-right small ms-1"></i>
+            </a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
