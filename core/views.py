@@ -4,6 +4,20 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .models import TaskGroup, TaskItem
 
+from django.shortcuts import get_object_or_404
+
+@login_required
+def toggle_task(request, task_id):
+    # 1. Find the specific task belonging to the user
+    task = get_object_or_404(TaskItem, id=task_id, group__user=request.user)
+    
+    # 2. Flip the switch (If True, make False. If False, make True)
+    task.is_completed = not task.is_completed
+    task.save()
+    
+    # 3. Reload the dashboard
+    return redirect('dashboard')
+
 def index(request):
     if request.user.is_authenticated:
         return redirect('dashboard')

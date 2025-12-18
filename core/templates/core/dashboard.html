@@ -28,13 +28,26 @@
                 </div>
                 <div class="list-group list-group-flush">
                     {% for task in group.tasks.all %}
-                    <div class="list-group-item border-0 px-4 py-3 d-flex justify-content-between align-items-center">
+                    <div class="list-group-item border-0 px-4 py-3 d-flex justify-content-between align-items-center" 
+                         style="background: transparent; border-bottom: 1px solid rgba(255,255,255,0.05) !important;">
+                        
                         <div class="d-flex align-items-center">
-                            <i class="far fa-circle me-3" style="color: rgba(255,255,255,0.2);"></i>
-                            <span>{{ task.description }}</span>
+                            <a href="{% url 'toggle_task' task.id %}" class="text-decoration-none me-3">
+                                {% if task.is_completed %}
+                                    <i class="fas fa-check-circle fa-lg text-success"></i>
+                                {% else %}
+                                    <i class="far fa-circle fa-lg text-secondary hover-grow"></i>
+                                {% endif %}
+                            </a>
+                    
+                            <span class="fw-500 {% if task.is_completed %}text-decoration-line-through text-muted{% endif %}" 
+                                  style="color: {% if task.is_completed %}rgba(255,255,255,0.3){% else %}#fff{% endif %};">
+                                {{ task.description }}
+                            </span>
                         </div>
+                    
                         <span class="badge rounded-pill" style="background: rgba(255,255,255,0.1); color: #fff;">
-                            {{ task.due_date|date:"h:i A" }}
+                            {{ task.due_date|date:"M d" }}
                         </span>
                     </div>
                     {% endfor %}

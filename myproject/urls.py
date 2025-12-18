@@ -10,4 +10,5 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('add/', views.add_task, name='add_task'),
+    path('toggle/<int:task_id>/', views.toggle_task, name='toggle_task'),
 ]
