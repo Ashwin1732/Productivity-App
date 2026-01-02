@@ -70,3 +70,48 @@ def add_task(request):
                 TaskItem.objects.create(group=group, description=descriptions[i], due_date=dates[i])
         return redirect('dashboard')
     return render(request, 'core/add_task.html')
+
+@login_required
+def delete_task(request, task_id):
+    # Fetch the task, ensuring it belongs to the current user
+    task = get_object_or_404(TaskItem, id=task_id, group__user=request.user)
+    task.delete()
+    return redirect('dashboard')
+
+@login_required
+def edit_task(request, task_id):
+    # Fetch the task, ensuring it belongs to the current user
+    task = get_object_or_404(TaskItem, id=task_id, group__user=request.user)
+    
+    if request.method == 'POST':
+        # Update the task with new data
+        task.description = request.POST.get('description')
+        task.due_date = request.POST.get('due_date')
+        task.save()
+        return redirect('dashboard')
+    
+    # GET: Show form pre-filled with task's current data
+    # Format due_date for datetime-local input (YYYY-MM-DDTHH:MM)
+    formatted_date = task.due_date.strftime('%Y-%m-%dT%H:%M')
+    return render(request, 'core/edit_task.html', {
+        'task': task,
+        'formatted_date': formatted_date
+    })
+
+@login_required
+def add_subtask(request, group_id):
+    # Fetch the TaskGroup, ensuring it belongs to the current user
+    group = get_object_or_404(TaskGroup, id=group_id, user=request.user)
+    
+    if request.method == 'POST':
+        # Create a new TaskItem linked to this group
+        description = request.POST.get('description')
+        due_date = request.POST.get('due_date')
+        if description and due_date:
+            TaskItem.objects.create(group=group, description=description, due_date=due_date)
+        return redirect('dashboard')
+    
+    # GET: Show form asking for Description and Due Date
+    return render(request, 'core/add_subtask.html', {
+        'group': group
+    })

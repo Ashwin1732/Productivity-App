@@ -46,11 +46,24 @@
                             </span>
                         </div>
                     
-                        <span class="badge rounded-pill" style="background: rgba(255,255,255,0.1); color: #fff;">
-                            {{ task.due_date|date:"M d" }}
-                        </span>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge rounded-pill" style="background: rgba(255,255,255,0.1); color: #fff;">
+                                {{ task.due_date|date:"M d" }}
+                            </span>
+                            <a href="{% url 'edit_task' task.id %}" class="text-decoration-none" title="Edit">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <a href="{% url 'delete_task' task.id %}" class="text-decoration-none text-danger" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
                     </div>
                     {% endfor %}
+                </div>
+                <div class="px-4 py-3 text-center" style="border-top: 1px solid rgba(255,255,255,0.05);">
+                    <a href="{% url 'add_subtask' group.id %}" class="btn btn-sm btn-outline-light" style="border-radius: 50px;">
+                        <i class="fas fa-plus me-1"></i> Add Task
+                    </a>
                 </div>
             </div>
         </div>
